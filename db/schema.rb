@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_21_092123) do
+ActiveRecord::Schema.define(version: 2019_01_22_092123) do
 
   create_table "booking_slots", force: :cascade do |t|
     t.integer "booking_id"
@@ -39,6 +39,11 @@ ActiveRecord::Schema.define(version: 2019_01_21_092123) do
     t.string "lastname"
     t.string "bank_account_number"
     t.string "bank_Id"
+    t.string "card_number"
+    t.string "name_on_card"
+    t.string "cvv"
+    t.string "city"
+    t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -52,11 +57,22 @@ ActiveRecord::Schema.define(version: 2019_01_21_092123) do
     t.index ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id"
   end
 
+  create_table "session_tokens", force: :cascade do |t|
+    t.string "session_token"
+    t.integer "user_id"
+    t.datetime "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_session_tokens_on_user_id"
+  end
+
   create_table "slots", force: :cascade do |t|
     t.datetime "starttime"
     t.datetime "endtime"
+    t.integer "booking_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_slots_on_booking_id"
   end
 
   create_table "studios", force: :cascade do |t|
@@ -83,13 +99,15 @@ ActiveRecord::Schema.define(version: 2019_01_21_092123) do
     t.string "firstname", null: false
     t.string "lastname", null: false
     t.string "email", null: false
+    t.string "password_digest", null: false
     t.string "contact", null: false
     t.string "bio"
     t.string "website_url"
     t.string "facebook_url"
     t.string "twitter_handle"
     t.string "instagram_handle"
-    t.string "streanplayer_url"
+    t.string "streamplayer_url"
+    t.boolean "email_authorised", null: false
     t.string "imageable_type"
     t.integer "imageable_id"
     t.datetime "created_at", null: false
